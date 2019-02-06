@@ -1,11 +1,12 @@
 points=[];
-
-printf("Centre's X: ");
-variableXtemp=input(' ');
-printf("Centre's Y: ");
-variableYtemp=input(' ');
-centre=[variableXtemp variableYtemp];
-
+%Assuming centre is not P(0,0)
+%printf("Centre's X: ");
+%variableXtemp=input(' ');
+%printf("Centre's Y: ");
+%variableYtemp=input(' ');
+%centre=[variableXtemp variableYtemp];
+%Otherwise
+centre=[0 0];
 printf("Initial Vector's Starting X: ");
 variableXtemp=input(' ');
 printf("Initial Vector's Starting Y: ");
@@ -24,3 +25,19 @@ plot([centre(1,1)],[centre(1,2)], 'ro')
 axis equal;
 axis([-10 10 -10 10]);
 %Representation of the initial vector and the center point
+finalVec=[points(2,1) points(2,2)];
+theta1=atan(finalVec(1,1)/finalVec(1,2));
+a1=[0 0];
+if (theta1<=1.178097 && theta1>=0.3926991)
+  a1=[1 1];
+elseif (theta1>=0 && theta1<0.3926991)
+  a1=[1 0];
+elseif (theta1<=1.570796 && theta1>1.178097)
+  a1=[0 1];
+endif
+if (finalVec(1,2)>0)
+  a1(1,2)=a1(1,2)*-1;
+endif
+if (finalVec(1,1)>0)
+  a1(1,1)=a1(1,1)*-1;
+endif
