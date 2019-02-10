@@ -1,4 +1,4 @@
-%M-M-R[O]
+%***************M-S-R[O]***************
 points=[];%Creation of the "points" variable
 %Assuming centre is not P(0,0)
 #printf("Centre's X: ");%Ask for the centre X value
@@ -68,6 +68,7 @@ for i=1:k %Creation of a for loop to repeat the process of finding new vectors a
   InitialPoint=FinalPoint;%Update "InitialPoint" by assigning the value of "FinalPoint"
   FinalPoint=NewPoint;%Update "FinalPoint" by assigning the value of "NewPoint"
 endfor%End the for loop
+%***************M-S-Z[H-T-L-A-N]***************
 file=fopen("Stuff.txt",'w');%Create "file" variable and open "Stuff.txt"
 fprintf(file,"Points Accelerations Angles Longitudes\n");%Print the titles of the variables in the "Stuff.txt" file
 for i=1:k%Creation of a for loop to read all the data stored in the variables
