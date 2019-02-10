@@ -1,73 +1,65 @@
-points=[];
+%M-M-R[O]
+points=[];%Creation of the "points" variable
 %Assuming centre is not P(0,0)
-%printf("Centre's X: ");
-%variableXtemp=input(' ');
-%printf("Centre's Y: ");
-%variableYtemp=input(' ');
-%centre=[variableXtemp variableYtemp];
+#printf("Centre's X: ");%Ask for the centre X value
+#variableXtemp=input(' ');%Read and store the input given by the user
+#printf("Centre's Y: ");%Ask for the centre Y value
+#variableYtemp=input(' ');%Read and store the input given by the user
+#centre=[variableXtemp variableYtemp];%Assign the centre variable the coordinates determined by the user
 %Otherwise
-centre=[0 0];
-printf("Initial Vector's Starting X: ");
-variableXtemp=input(' ');
-printf("Initial Vector's Starting Y: ");
-variableYtemp=input(' ');
-points=[points;variableXtemp variableYtemp];
-printf("Initial Vector's Final X: ");
-variableXtemp=input(' ');
-printf("Initial Vector's Final Y: ");
-variableYtemp=input(' ');
-points=[points;variableXtemp variableYtemp];
-%all data necessary has been introduced to the system
-axis on;
-plot([points(1,1) points(2,1)],[points(1,2) points(2,2)], 'r')
-hold on;
-plot([centre(1,1)],[centre(1,2)], 'ro')
-axis equal;
-axis([-25 25 -25 25]);
-%Representation of the initial vector and the center point
-  InitialPoint=[points(1,1) points(1,2)];
-  FinalPoint=[points(2,1) points(2,2)];
-  accelerations=[];
-for i=1:1000
-  Xsub2=FinalPoint(1,1);
-  if Xsub2<0
-    Xsub2=Xsub2*-1;
-  endif
-  Ysub2=FinalPoint(1,2);
-  if Ysub2<0
-    Ysub2=Ysub2*-1;
-  endif
-%  DistanceToCenter=sqrt(power(Xsub2,2)+power(Ysub2,2));
-  Thetasub2=asin(Ysub2/sqrt(power(Xsub2,2)+power(Ysub2,2)));
-  %Thetasub2=atan(Xsub2/Ysub2);
-  Asub1=[0 0];
-  if (Thetasub2<=deg2rad(67.5))&&(Thetasub2>=deg2rad(22.5))
-    Asub1=[1 1];
-  endif
-  if (Thetasub2>=deg2rad(0))&&(Thetasub2<deg2rad(22.5))
-    Asub1=[1 0];
-  endif
-  if (Thetasub2<=deg2rad(90))&&(Thetasub2>deg2rad(67.5))
-    Asub1=[0 1];
-  endif
-  if FinalPoint(1,2)>0
-    Asub1(1,2)=Asub1(1,2)*-1;
-  endif
-  if FinalPoint(1,1)>0
-    Asub1(1,1)=Asub1(1,1)*-1;
-  endif
-%  totalDistanceX=FinalPoint(1,1)-InitialPoint(1,1);
-%  totalDistanceY=FinalPoint(1,2)-InitialPoint(1,2);
-%  ClonedVector=[FinalPoint(1,1)+totalDistanceX FinalPoint(1,2)+totalDistanceY];
-%  SubmittedVector=[ClonedVector(1,1)+Asub1(1,1) ClonedVector(1,2)+Asub1(1,2)];
-  NewPoint=[2*FinalPoint(1,1)-InitialPoint(1,1)+Asub1(1,1) 2*FinalPoint(1,2)-InitialPoint(1,2)+Asub1(1,2)];
-  hold on;
-%  plot([FinalPoint(1,1) SubmittedVector(1,1)],[FinalPoint(1,2) SubmittedVector(1,2)],'k')
-  plot([FinalPoint(1,1) NewPoint(1,1)],[FinalPoint(1,2) NewPoint(1,2)],'k')
-  InitialPoint=FinalPoint;
-%  FinalPoint=SubmittedVector;
-  FinalPoint=NewPoint;
-%  points=[points;SubmittedVector];
-  points=[points;FinalPoint];
-  accelerations=[accelerations;Asub1];
-endfor
+centre=[0 0];%Created variable centre with given coordinates (0,0)
+printf("Initial Vector's Starting X: ");%Ask for the starting X value of the initial vector
+variableXtemp=input(' ');%Read and store the input given by the user
+printf("Initial Vector's Starting Y: ");%Ask for the starting Y value of the initial vector
+variableYtemp=input(' ');%Read and store the input given by the user
+points=[points;variableXtemp variableYtemp];%Store the tail coordinates of the initial vector in the points variable
+printf("Initial Vector's Final X: ");%Ask for the final X value of the initial vector
+variableXtemp=input(' ');%Read and store the input given by the user
+printf("Initial Vector's Final Y: ");%Ask for the final Y value of the initial vector
+variableYtemp=input(' ');%Read and store the input given by the user
+points=[points;variableXtemp variableYtemp];%Store the head coordinates of the initial vector in the points variable
+%All necessary data has been introduced to the system at this point
+%Representation of the centre and the initial vector
+axis on;%Show axis in the plot screen
+plot([centre(1,1)],[centre(1,2)], 'ro')%Represent the centre with an O and coloured red
+hold on;%Maintain the former plots in the screen
+plot([points(1,1) points(2,1)],[points(1,2) points(2,2)], 'r')%Represent the initial vector coloured red
+axis equal;%Make both axis have the same scale
+axis([-25 25 -25 25]);%Make both axis represent from a determined value to another
+InitialPoint=[points(1,1) points(1,2)];%Assign the inital vector's tail coordinates to the new variable "InitialPoint"
+FinalPoint=[points(2,1) points(2,2)];%Assign the final vector's head coordinates to the new variable "FinalPoint"
+accelerations=[];%Create the "accelerations" variable
+for i=1:1000 %Creation of a for loop to repeat the process of finding new vectors and representing
+  Xpoint=FinalPoint(1,1);%Assign the "FinalPoint" X value to "Xpoint" variable
+  if Xpoint<0%Creation of an if statement to check if "Xpoint" is smaller than 0
+    Xpoint=Xpoint*-1;%If "Xpoint" is smaller than 0 it is multiplied by -1
+  endif%Close the if statement
+  Ypoint=FinalPoint(1,2);%Assign the "FinalPoint" Y value to "Ypoint" variable
+  if Ypoint<0%Creation of an if statement to check if "Ypoint" is smaller than 0
+    Ypoint=Ypoint*-1;%If "Ypoint" is smaller than 0 it is multiplied by -1
+  endif%Close the if statement
+  Theta=asin(Ypoint/sqrt(power(Xpoint,2)+power(Ypoint,2)));%Creation of "Theta" variable and assign the value of the slope angle of the line through the center and the current vector's head
+  a=[0 0];%Creation the "a" (acceleration) vector and assign the value of (0,0)
+  if (Theta<=deg2rad(67.5))&&(Theta>=deg2rad(22.5))%Creation of an if statement to check if "Theta" is smaller or equal to 67.5deg and smaller or equal to 22.5deg
+    a=[1 1];%In case "Theta" is bigger or equal to 22.5deg and smaller or equal to 67.5deg, "a" is assigned the value of (1,1)
+  endif%Close the if statement
+  if Theta<deg2rad(22.5)%Creation of an if statement to check if "Theta" is smaller than 22.5deg
+    a=[1 0];%In case "Theta" is smaller than 22.5deg, "a" is assigned the value of (1,0)
+  endif%Close the if statement
+  if Theta>deg2rad(67.5)%Creation of an if statement to check if "Theta" is bigger than 67.5deg
+    a=[0 1];%In case "Theta" is bigger than 67.5deg, "a" is assigned the value of (0,1)
+  endif%Close the if statement
+  if FinalPoint(1,2)>0%Creation of an if statement to check if the Y value of "FinalPoint" is bigger than 0
+    a(1,2)=a(1,2)*-1;%In case the Y value of "FinalPoint" is bigger than 0, Y component of the acceleration is multiplied by -1  
+  endif%Close the if statement
+  if FinalPoint(1,1)>0%Creation of an if statement to check if the X value of "FinalPoint" is bigger than 0
+    a(1,1)=a(1,1)*-1;%In cast the X value of "FinalPoint" is bigger than 0, X component of the acceleration is multiplied by -1
+  endif%Close the if statement
+  NewPoint=[2*FinalPoint(1,1)-InitialPoint(1,1)+a(1,1) 2*FinalPoint(1,2)-InitialPoint(1,2)+a(1,2)];%Create "NewPoint" variable and assign the value of the coordinates of the new point generated by cloning the vector and submitting it to the acceleration
+  hold on;%Maintain the former plots in the screen
+  plot([FinalPoint(1,1) NewPoint(1,1)],[FinalPoint(1,2) NewPoint(1,2)],'k')%Represent the vector between "FinalPoint" and "NewPoint"
+  InitialPoint=FinalPoint;%Update "InitialPoint" by assigning the value of "FinalPoint"
+  FinalPoint=NewPoint;%Update "FinalPoint" by assigning the value of "NewPoint"
+  points=[points;FinalPoint];%Add "FinalPoint" to the "points" variable
+  accelerations=[accelerations;a];%Add "a" to the "accelerations" variable
+endfor%End the for loop
