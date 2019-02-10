@@ -87,7 +87,7 @@ for i=1:k %Creation of a for loop to repeat the process of finding new vectors a
   FinalPoint=NewPoint;%Update "FinalPoint" by assigning the value of "NewPoint"
 endfor%End the for loop
 axis([1.1*MinXPoint 1.1*MaxXPoint 1.1*MinYPoint 1.1*MaxYPoint]);
-%check paint for solution 
+%check if orbit is repeating itself
 defined=false;
 startingPosition=1;
 for i=2:k
@@ -110,7 +110,7 @@ for i=startingPosition+1:k
       if points(i+1,1)==FollowingPoint(1,1)
         if points(i+1,2)==FollowingPoint(1,2)
           if !defined2
-            finalPosition=i;
+            finalPosition=i+1;
             defined2=true;
           endif
         endif
@@ -131,6 +131,13 @@ for i=1:totalValues%Creation of a for loop to read all the data stored in the va
   fprintf(file,"(%d,%d)    (%d,%d)    %d    (%d,%d)\n",pointsDef(i,1),pointsDef(i,2),accelerationsDef(i,1),accelerationsDef(i,2),anglesDef(i),longitudesDef(i,1),longitudesDef(i,2));%Print on the file all the different points and variables nice formatted
 endfor%End the for loop
 fclose(file);%Close the "Stuff.txt" file
+%print other stuff
+file=fopen("Stuff2.txt","w");
+fprintf(file,"Pi-1        Pi        Vi        Ai        Ti\n");
+for i=2:totalValues
+  fprintf(file,"(%d,%d)    (%d,%d)    (%d,%d)    (%d,%d)    %d\n",pointsDef(i-1,1),pointsDef(i-1,2),pointsDef(i,1),pointsDef(i,2),longitudesDef(i,1),longitudesDef(i,2),accelerationsDef(i,1),accelerationsDef(i,2),anglesDef(i));
+endfor
+fclose(file);  
 %Representation
 for i=1:totalValues-1
   hold on;%Maintain the former plots in the screen
