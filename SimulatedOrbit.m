@@ -161,7 +161,7 @@ if defined==false
 endif
 %Representation of the orbit (opened only)
 if defined
-  for i=1:(totalValues/2)
+  for i=1:(totalValues/2)-1
     hold on;
     plot([pointsDef(i,1) pointsDef(i+1,1)],[pointsDef(i,2) pointsDef(i+1,2)],'k')
   endfor
