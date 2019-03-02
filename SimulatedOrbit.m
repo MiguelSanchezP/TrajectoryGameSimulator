@@ -166,3 +166,25 @@ if defined
     plot([pointsDef(i,1) pointsDef(i+1,1)],[pointsDef(i,2) pointsDef(i+1,2)],'k')
   endfor
 endif
+%beggining of the symmetry analysis
+total=0;
+if defined 
+  for i=1:(totalValues-1)/2
+    if pointsDef(i,1) == (pointsDef(((totalValues-1)/2+i),1))
+      if pointsDef(i,2) == pointsDef(((totalValues-1)/2+i),2)*-1
+        total+=1;
+      endif
+    endif
+  endfor
+endif
+
+if total==((totalValues-1)/2)
+  file=fopen("Stuff.txt","a");
+  fprintf(file, "The orbit obeys to a case of symmetry");
+  fclose(file);
+endif
+if total!=((totalValues-1)/2)
+  file=fopen("Stuff.txt","a");
+  fprintf(file, "The orbit does NOT obey to a case of symmetry");
+  fclose(file);
+endif
