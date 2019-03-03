@@ -1,0 +1,5 @@
+Type of orbit: Opened
+Quantity of vectors: 72
+Furthest points [minX/maxX/minY/maxY]: -10/10/-8/8
+Centre: (0,0)
+The orbit does NOT obey to a case of symmetry
