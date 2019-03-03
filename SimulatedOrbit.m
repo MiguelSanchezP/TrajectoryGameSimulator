@@ -1,13 +1,13 @@
 %***************M-S-R[O]***************
 points=[];
 %Assuming centre is not P(0,0)
-%printf("Centre's X: ");
-%variableXtemp=input(' ');
-%printf("Centre's Y: ");
-%variableYtemp=input(' ');
-%centre=[variableXtemp variableYtemp];
+printf("Centre's X: ");
+variableXtemp=input(' ');
+printf("Centre's Y: ");
+variableYtemp=input(' ');
+centre=[variableXtemp variableYtemp];
 %Otherwise
-centre=[0 0];
+%centre=[0 0];
 %Ask for data of the initial vector
 printf("Initial Vector's Starting X: ");
 variableXtemp=input(' ');
@@ -45,15 +45,19 @@ angles=[angles;0];
 longitudes=[longitudes;0 0];
 %for method to compute points, and positions of the following vectors
 for i=1:k
-  Xpoint=FinalPoint(1,1);
-  if Xpoint<0
-    Xpoint=Xpoint*-1;
+  Xpoint=(FinalPoint(1,1));
+%  if Xpoint<0
+%    Xpoint=Xpoint*-1;
+%  endif
+  Ypoint=(FinalPoint(1,2));
+%  if Ypoint<0
+%    Ypoint=Ypoint*-1;
+%  endif
+  Theta=asin((Ypoint-centre(1,2))/(sqrt(power((Xpoint-centre(1,1)),2)+power((Ypoint-centre(1,2)),2))));
+%  Theta=asin((FinalPoint(1,2)-centre(1,2))/sqrt((power((FinalPoint(1,1)-centre(1,1)),2))+power((FinalPoint(1,2)-centre(1,2)),2)));
+  if Theta<0
+    Theta=Theta*-1;
   endif
-  Ypoint=FinalPoint(1,2);
-  if Ypoint<0
-    Ypoint=Ypoint*-1;
-  endif
-  Theta=asin(Ypoint/sqrt(power(Xpoint,2)+power(Ypoint,2)));
   a=[0 0];
   if (Theta<=deg2rad(67.5))&&(Theta>=deg2rad(22.5))
     a=[1 1];
@@ -64,10 +68,10 @@ for i=1:k
   if Theta>deg2rad(67.5)
     a=[0 1];
   endif
-  if FinalPoint(1,2)>0
+  if FinalPoint(1,2)>centre(1,2)
     a(1,2)=a(1,2)*-1;  
   endif
-  if FinalPoint(1,1)>0
+  if FinalPoint(1,1)>centre(1,1)
     a(1,1)=a(1,1)*-1;
   endif
   longitudes=[longitudes;FinalPoint(1,1)-InitialPoint(1,1) FinalPoint(1,2)-InitialPoint(1,2)];
@@ -142,7 +146,7 @@ if defined==false
 endif
 fprintf(file,"Quantity of vectors: %d\n",totalValues-1);
 fprintf(file,"Furthest points [minX/maxX/minY/maxY]: %d/%d/%d/%d\n", MinXPoint, MaxXPoint, MinYPoint, MaxYPoint);
-fprintf(file,"Centre: (%d,%d)\n",center(1,1), center(1,2));
+fprintf(file,"Centre: (%d,%d)\n",centre(1,1), centre(1,2));
 fclose(file);
 file=fopen("Stuff.txt","w");
 fprintf(file,"Points Accelerations Angles Longitudes\n");
