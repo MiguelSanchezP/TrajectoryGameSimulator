@@ -132,16 +132,21 @@ accelerationsDef=accelerations(startingPosition:finalPosition,1:end);
 totalValues=finalPosition-startingPosition;
 %***************M-S-Z[H-T-L-A-N]***************
 %Writing stuff into a file 
-file=fopen("Stuff.txt",'w');
+file=fopen("UsefulData.txt",'w');
 fprintf(file,"Type of orbit: ");
 if defined
-  fprintf(file, "Opened\n\n");
+  fprintf(file, "Opened\n");
 endif
 if defined==false
-  fprintf(file, "Closed\n\n");
+  fprintf(file, "Closed\n");
 endif
+fprintf(file,"Quantity of vectors: %d\n",totalValues-1);
+fprintf(file,"Furthest points [minX/maxX/minY/maxY]: %d/%d/%d/%d\n", MinXPoint, MaxXPoint, MinYPoint, MaxYPoint);
+fprintf(file,"Centre: (%d,%d)\n",center(1,1), center(1,2));
+fclose(file);
+file=fopen("Stuff.txt","w");
 fprintf(file,"Points Accelerations Angles Longitudes\n");
-for i=1:totalValues-1
+for i=2:totalValues
   fprintf(file,"(%d,%d)    (%d,%d)    %d    (%d,%d)\n",pointsDef(i,1),pointsDef(i,2),accelerationsDef(i,1),accelerationsDef(i,2),anglesDef(i),longitudesDef(i,1),longitudesDef(i,2));
 endfor
 fclose(file);
@@ -152,39 +157,62 @@ for i=2:totalValues
   fprintf(file,"(%d,%d)    (%d,%d)    (%d,%d)    (%d,%d)    %d\n",pointsDef(i-1,1),pointsDef(i-1,2),pointsDef(i,1),pointsDef(i,2),longitudesDef(i,1),longitudesDef(i,2),accelerationsDef(i,1),accelerationsDef(i,2),anglesDef(i));
 endfor
 fclose(file);
+
+%beggining of the symmetry analysis: only vertical cases
+totalH=0;
+totalV=0;
+verticalSym=false;
+horizontalSym=false;
+totalUtilValues=(totalValues-1)/2;
+for i=1:totalUtilValues
+%  if pointsDef(i,1)==pointsDef((i+totalUtilValues),1)
+    if pointsDef(i,2)==(pointsDef((i+totalUtilValues),2)*-1)
+      totalH+=1;
+    endif
+    if pointsDef(i,1)==(pointsDef((i+totalUtilValues),1)*-1)
+      totalV+=1;
+    endif
+%  endif
+endfor
+if totalH==totalUtilValues
+%  file=fopen("Stuff.txt","a");
+%  fprintf(file, "The orbit obeys to a case of symmetry: Vertical");
+%  fclose(file);
+  horizontalSym=true;
+endif
+if totalV==totalUtilValues
+  verticalSym=true;
+endif
+%if total!=totalUtilValues
+%  file=fopen("Stuff.txt","a");
+%  fprintf(file, "The orbit does NOT obey to a case of symmetry");
+%  fclose(file);
+%endif
+file=fopen("UsefulData.txt","a");
+if verticalSym && !horizontalSym
+  fprintf(file,"The orbit does obey to a case of symmetry: VERTICAL");
+endif
+if !verticalSym && horizontalSym
+  fprintf(file,"The orbit does obey to a case of symmetry: HORIZONTAL");
+endif
+if !verticalSym && !horizontalSym
+  fprintf(file,"The orbit does NOT obey to a case of symmetry");
+endif
+if verticalSym && horizontalSym
+  fprintf(file,"The orbit does obey to a case of symmetry: FULL");
+endif
+fclose(file);
 %Representation of the orbit (closed only)
 if defined==false
-  for i=1:totalValues-1
+  for i=1:totalValues
     hold on;
     plot([pointsDef(i,1) pointsDef(i+1,1)],[pointsDef(i,2) pointsDef(i+1,2)],'k')
   endfor
 endif
 %Representation of the orbit (opened only)
 if defined
-  for i=1:(totalValues/2)-1
+  for i=1:(totalValues/2)
     hold on;
     plot([pointsDef(i,1) pointsDef(i+1,1)],[pointsDef(i,2) pointsDef(i+1,2)],'k')
   endfor
-endif
-%beggining of the symmetry analysis
-total=0;
-if defined 
-  for i=1:(totalValues-1)/2
-    if pointsDef(i,1) == (pointsDef(((totalValues-1)/2+i),1))
-      if pointsDef(i,2) == pointsDef(((totalValues-1)/2+i),2)*-1
-        total+=1;
-      endif
-    endif
-  endfor
-endif
-
-if total==((totalValues-1)/2)
-  file=fopen("Stuff.txt","a");
-  fprintf(file, "The orbit obeys to a case of symmetry");
-  fclose(file);
-endif
-if total!=((totalValues-1)/2)
-  file=fopen("Stuff.txt","a");
-  fprintf(file, "The orbit does NOT obey to a case of symmetry");
-  fclose(file);
 endif
